@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Warm background circle -->
+  <circle cx="50" cy="50" r="46" fill="#F0E2C4" stroke="#2B2118" stroke-width="3"/>
+  <!-- Antlers (Deer) -->
+  <path d="M42 34 C42 22, 34 16, 28 15 M36 24 C31 22, 29 26, 26 25" stroke="#8B3A62" stroke-width="3" stroke-linecap="round"/>
+  <path d="M58 34 C58 22, 66 16, 72 15 M64 24 C69 22, 71 26, 74 25" stroke="#8B3A62" stroke-width="3" stroke-linecap="round"/>
+  <!-- Lion Mane -->
+  <path d="M32 44 C26 38, 22 56, 28 66 C22 74, 38 82, 50 82 C62 82, 78 74, 72 66 C78 56, 74 38, 68 44 C72 32, 58 32, 50 36 C42 32, 28 32, 32 44 Z" fill="#E8A33D" stroke="#2B2118" stroke-width="2.5"/>
+  <!-- Face/Muzzle -->
+  <ellipse cx="50" cy="58" rx="14" ry="16" fill="#FBF1DE" stroke="#2B2118" stroke-width="2"/>
+  <!-- Eyes -->
+  <circle cx="44" cy="52" r="2.5" fill="#2B2118"/>
+  <circle cx="56" cy="52" r="2.5" fill="#2B2118"/>
+  <!-- Nose & Smile -->
+  <polygon points="50,57 47,54 53,54" fill="#8B3A62"/>
+  <path d="M47 59 Q50 63 53 59" stroke="#2B2118" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <!-- Little stitch markings -->
+  <line x1="38" y1="46" x2="41" y2="44" stroke="#2F7A6E" stroke-width="2" stroke-linecap="round"/>
+  <line x1="59" y1="44" x2="62" y2="46" stroke="#2F7A6E" stroke-width="2" stroke-linecap="round"/>
+</svg>

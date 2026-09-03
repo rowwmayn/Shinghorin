@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  key       String    @unique
+  label     String
+  folder    String    @default("")
+  chip      String    @default("#2F7A6E")
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  products  Product[]
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  name        String
+  bn          String?  @default("")
+  description String   @default("")
+  badge       String?  @default("")
+  price       Float?
+  variants    String?  @default("[]") // JSON string of [{ label, price }]
+  images      String   @default("[]") // JSON string of string filenames/URLs
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([categoryId])
+}
+
+model Order {
+  id            Int      @id @default(autoincrement())
+  orderNumber   String   @unique
+  customerName  String
+  phone         String
+  address       String
+  preferredDate String?
+  items         String   @default("[]") // JSON string of items
+  total         Float    @default(0)
+  hasCustom     Boolean  @default(false)
+  status        String   @default("PENDING") // PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED
+  source        String   @default("WEBSITE") // WEBSITE, WHATSAPP
+  notes         String?  @default("")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model PageView {
+  id        Int      @id @default(autoincrement())
+  path      String
+  referrer  String?  @default("")
+  userAgent String?  @default("")
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}

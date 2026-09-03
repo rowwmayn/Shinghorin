@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shinghorin — Handmade Crochet & Clay, Dhaka</title>
+<meta name="description" content="Half lion, half deer, entirely handmade. Crochet keychains, plushies, figurines, flowers and wearables — stitched to order in Dhaka, delivered with Cash on Delivery.">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* ============================================================
+   SHINGHORIN — DESIGN TOKENS
+   A sketchbook-page aesthetic inspired by the hybrid nonsense
+   creatures of Bengali children's verse: warm rice-paper, deep
+   ink linework, and three storybook accent colours borrowed
+   from festival thread — marigold, plum, and forest teal.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=Kalam:wght@400;700&family=Space+Mono:wght@400;700&family=Noto+Serif+Bengali:wght@600;700&display=swap');
+
+:root{
+  --paper:#FBF1DE;
+  --paper-deep:#F0E2C4;
+  --ink:#2B2118;
+  --marigold:#E8A33D;
+  --marigold-deep:#C4801F;
+  --plum:#8B3A62;
+  --plum-deep:#6E2A4C;
+  --teal:#2F7A6E;
+  --line: rgba(43,33,24,0.16);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth; scroll-padding-top:84px;}
+html,body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Quicksand',sans-serif;
+  width:100%; max-width:100vw; overflow-x:hidden; margin:0; padding:0;
+}
+img{ -webkit-user-drag:none; user-select:none; -webkit-user-select:none; }
+::selection{ background:var(--marigold); color:var(--ink); }
+
+.font-display{ font-family:'Baloo 2', sans-serif; }
+.font-hand{ font-family:'Kalam', cursive; }
+.font-mono{ font-family:'Space Mono', monospace; }
+.font-bn{ font-family:'Noto Serif Bengali', serif; }
+
+h1,h2,h3{ line-height:1.02; letter-spacing:-0.01em; }
+
+a, button{ cursor:pointer; }
+:focus-visible{ outline:2px solid var(--plum); outline-offset:3px; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; }
+}
+
+/* --- BACKDROP TEXTURE --- */
+.bg-field{
+  position:fixed; inset:0; z-index:-2; background:var(--paper);
+  background-image: radial-gradient(circle, rgba(43,33,24,0.12) 1px, transparent 1.4px);
+  background-size: 22px 22px;
+}
+
+.bn-bg{
+  position:absolute; font-family:'Noto Serif Bengali', serif; color:var(--plum);
+  opacity:0.06; font-weight:700; z-index:0; pointer-events:none; user-select:none;
+  will-change:transform;
+}
+
+/* --- BUTTONS --- */
+.btn{
+  font-family:'Baloo 2', sans-serif; font-weight:700; font-size:0.95rem;
+  padding:0.85rem 1.7rem; border-radius:999px;
+  display:inline-flex; align-items:center; gap:0.5rem; transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+  border:2px solid var(--ink);
+}
+.btn-primary{ background:var(--plum); border-color:var(--plum); color:var(--paper); }
+.btn-primary:hover{ background:var(--plum-deep); transform:translateY(-2px) rotate(-0.3deg); box-shadow:0 10px 22px -8px rgba(110,42,76,0.5); }
+.btn-outline{ background:transparent; color:var(--ink); }
+.btn-outline:hover{ background:var(--ink); color:var(--paper); transform:translateY(-2px) rotate(0.3deg); }
+.btn-teal{ background:var(--teal); border-color:var(--teal); color:var(--paper); }
+.btn-teal:hover{ background:#255f56; transform:translateY(-2px); }
+.btn-sm{ padding:0.55rem 1.05rem; font-size:0.8rem; }
+.btn:disabled{ opacity:0.4; cursor:not-allowed; transform:none !important; box-shadow:none !important; }
+
+/* --- STITCH DIVIDER (hand-drawn chain stitch) --- */
+.stitch-divider{ width:100%; display:block; }
+.stitch-divider path{ stroke:var(--ink); stroke-width:2; fill:none; opacity:0.35; }
+.stitch-divider circle{ fill:var(--marigold); opacity:0.5; }
+
+/* --- MARQUEE --- */
+.ticker-wrap{ overflow:hidden; background:var(--ink); border-top:2px solid var(--ink); border-bottom:2px solid var(--ink); }
+.ticker-track{ display:inline-flex; white-space:nowrap; animation: tickerScroll 28s linear infinite; }
+.ticker-track span{ font-family:'Space Mono',monospace; color:var(--paper); font-size:0.82rem; font-weight:700; letter-spacing:0.06em; padding:0.85rem 1.4rem; }
+@keyframes tickerScroll{ 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+
+/* --- SCROLL REVEAL --- */
+.reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in-view{ opacity:1; transform:none; }
+
+/* --- HOW-TO-ORDER STEPS (a real sequence) --- */
+.step-card{ background:var(--paper); border:2px solid var(--ink); border-radius:16px; padding:1.5rem; position:relative; }
+.step-num{ font-family:'Baloo 2',sans-serif; font-weight:800; font-size:1.6rem; color:var(--marigold-deep); }
+
+/* --- COLLECTION CARDS --- */
+.collection-card{ position:relative; overflow:hidden; border:2px solid var(--ink); border-radius:18px; aspect-ratio:3/4; }
+.collection-card img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+.collection-card:hover img{ transform:scale(1.06) rotate(-1deg); }
+.collection-overlay{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(43,33,24,0.05) 30%, rgba(43,33,24,0.82) 100%); display:flex; flex-direction:column; justify-content:flex-end; padding:1.1rem; }
+.tag-chip{ font-family:'Space Mono',monospace; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.3rem 0.6rem; border-radius:999px; display:inline-block; }
+
+/* --- SPECIMEN (PRODUCT) CARDS --- */
+.specimen-card{ background:var(--paper); border:2px solid var(--ink); border-radius:16px; overflow:hidden; transition:transform .25s ease, box-shadow .25s ease; }
+.specimen-card:hover{ transform:translateY(-5px) rotate(-0.4deg); box-shadow:0 18px 34px -16px rgba(43,33,24,0.3); }
+.specimen-img-wrap{ position:relative; aspect-ratio:4/5; overflow:hidden; border-bottom:2px solid var(--ink); background:var(--paper-deep); }
+.specimen-img-wrap img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+.specimen-card:hover .specimen-img-wrap img{ transform:scale(1.05); }
+.badge-tag{ position:absolute; top:0.6rem; right:0.6rem; background:var(--plum); color:var(--paper); font-family:'Space Mono',monospace; font-size:0.6rem; letter-spacing:0.06em; padding:0.25rem 0.5rem; z-index:6; border-radius:999px; }
+
+/* --- FILTER PILLS --- */
+.filter-pill{ font-family:'Space Mono',monospace; font-size:0.7rem; letter-spacing:0.05em; padding:0.55rem 1.1rem; border:2px solid var(--ink); border-radius:999px; background:transparent; white-space:nowrap; transition:all .2s; }
+.filter-pill.active{ background:var(--ink); color:var(--paper); }
+.filter-pill:hover:not(.active){ background:var(--line); }
+
+/* --- SIZE PILLS (modal) --- */
+.size-pill{ font-family:'Space Mono',monospace; font-size:0.78rem; letter-spacing:0.03em; padding:0.6rem 1.2rem; border:2px solid var(--ink); border-radius:999px; background:transparent; transition:all .2s; }
+.size-pill.selected{ background:var(--plum); border-color:var(--plum); color:var(--paper); font-weight:700; }
+.size-pill:hover:not(.selected){ background:var(--line); }
+
+/* --- MODAL --- */
+.modal-overlay{ position:fixed; inset:0; background:rgba(43,33,24,0.55); backdrop-filter:blur(6px); z-index:1000; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .3s; padding:1rem; }
+.modal-overlay.open{ opacity:1; pointer-events:all; }
+.modal-box{ background:var(--paper); border:2px solid var(--ink); border-radius:20px; box-shadow:0 30px 60px -20px rgba(0,0,0,0.4); }
+
+/* --- QTY STEPPER --- */
+.qty-stepper{ display:flex; align-items:center; gap:0.75rem; }
+.qty-btn{ width:34px; height:34px; border:2px solid var(--ink); border-radius:50%; font-family:'Baloo 2',sans-serif; font-weight:700; display:flex; align-items:center; justify-content:center; background:var(--paper); line-height:1; font-size:1.1rem; }
+.qty-btn:hover{ background:var(--marigold); }
+
+/* --- CART DRAWER --- */
+.cart-drawer{ position:fixed; top:0; right:0; height:100%; width:100%; max-width:480px; background:var(--paper); border-left:2px solid var(--ink); z-index:1001; transform:translateX(100%); transition:transform .35s cubic-bezier(0.4,0,0.2,1); display:flex; flex-direction:column; box-shadow:-16px 0 30px rgba(0,0,0,0.25); }
+.cart-drawer.open{ transform:translateX(0); }
+.cart-items{ flex-grow:1; overflow-y:auto; padding:1.25rem; }
+
+/* --- INPUTS --- */
+.field{ width:100%; background:var(--paper); border:2px solid var(--ink); padding:0.85rem 1rem; font-family:'Quicksand',sans-serif; font-size:0.9rem; border-radius:12px; outline:none; margin-bottom:0.85rem; }
+.field:focus{ box-shadow:0 0 0 3px var(--marigold); }
+
+/* --- TOAST --- */
+.toast{ position:fixed; bottom:1.75rem; left:50%; transform:translateX(-50%) translateY(140%); background:var(--ink); color:var(--paper); border:2px solid var(--marigold); padding:0.9rem 1.5rem; border-radius:14px; z-index:2000; transition:transform .35s ease; font-family:'Space Mono',monospace; font-size:0.8rem; box-shadow:0 14px 30px rgba(0,0,0,0.3); }
+.toast.show{ transform:translateX(-50%) translateY(0); }
+
+/* mobile nav */
+.mobile-menu{ max-height:0; overflow:hidden; transition:max-height .3s ease; }
+.mobile-menu.open{ max-height:280px; }
+</style>
+</head>
+<body>
+
+<div class="bg-field"></div>
+
+<!-- ===================== NAV ===================== -->
+<nav class="fixed w-full z-50 bg-[var(--paper)]/95 border-b-2 border-[var(--ink)] top-0 left-0 backdrop-blur-sm">
+  <div class="flex justify-between items-center px-5 md:px-10 py-3">
+    <a href="#top" class="flex items-center gap-2.5">
+      <!-- LOGO: this is the placeholder — see logo-placeholder.svg for
+           instructions on swapping it for your real logo. -->
+      <img src="logo-placeholder.svg" alt="Shinghorin logo" class="w-10 h-10 md:w-11 md:h-11">
+      <span class="font-display font-bold text-2xl tracking-tight">Shinghorin</span>
+    </a>
+    <div class="hidden md:flex items-center gap-7 font-mono text-xs uppercase tracking-[0.1em]">
+      <a href="#catalog" class="hover:text-[var(--plum)] transition-colors">Shop</a>
+      <a href="#custom" class="hover:text-[var(--plum)] transition-colors">Custom Request</a>
+      <a href="#footer" class="hover:text-[var(--plum)] transition-colors">Contact</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <button onclick="toggleCart()" class="font-mono text-xs font-bold border-2 border-[var(--ink)] px-3 py-2 rounded-full hover:bg-[var(--ink)] hover:text-[var(--paper)] transition-colors" id="cart-btn-top">BASKET (0)</button>
+      <button class="md:hidden border-2 border-[var(--ink)] w-9 h-9 rounded-full flex items-center justify-center" onclick="toggleMobileMenu()" aria-label="Menu">
+        <span class="font-mono text-sm">≡</span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu md:hidden border-t border-[var(--line)]" id="mobile-menu">
+    <div class="flex flex-col font-mono text-xs uppercase tracking-[0.1em] px-5 py-3 gap-3">
+      <a href="#catalog" onclick="toggleMobileMenu()">Shop</a>
+      <a href="#custom" onclick="toggleMobileMenu()">Custom Request</a>
+      <a href="#footer" onclick="toggleMobileMenu()">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header id="top" class="relative min-h-[92vh] flex flex-col justify-center items-center pt-24 px-5 overflow-hidden">
+  <div class="bn-bg text-[8rem] md:text-[15rem] top-[4%] left-[-2rem] parallax" data-speed="0.12">সুতো</div>
+  <div class="bn-bg text-[7rem] md:text-[13rem] bottom-[2%] right-[-2rem] parallax" data-speed="-0.1">ফুলবাড়ি</div>
+
+  <div class="relative z-10 text-center max-w-3xl reveal">
+    <p class="font-mono text-xs md:text-sm tracking-[0.3em] uppercase mb-5">A Little Handmade Menagerie // Dhaka</p>
+    <h1 class="font-display font-bold text-[13vw] md:text-[5.5rem] mb-5">
+      Half lion,<br><span class="text-[var(--plum)]">half deer,</span> entirely<br>hand-stitched.
+    </h1>
+    <p class="max-w-md mx-auto text-base md:text-lg opacity-80 mb-9 font-hand text-xl md:text-2xl">Odd little creatures and cosy things, looped one stitch at a time — because the best gifts are a bit nonsensical.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#catalog" class="btn btn-primary">Browse the Shop ↓</a>
+      <a href="#custom" class="btn btn-outline">Request Something Odd →</a>
+    </div>
+  </div>
+
+  <a href="#catalog" class="absolute bottom-8 left-1/2 -translate-x-1/2 font-mono text-[0.65rem] uppercase tracking-[0.2em] opacity-60 flex flex-col items-center gap-2 hover:opacity-100 transition-opacity">
+    <span>Scroll</span>
+    <span class="animate-bounce">↓</span>
+  </a>
+</header>
+
+<!-- Ticker -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span>✦ HAND-STITCHED TO ORDER</span><span>✦ CASH ON DELIVERY AVAILABLE</span><span>✦ DHAKA-WIDE DELIVERY</span><span>✦ CUSTOM COLOURS ON REQUEST</span>
+    <span>✦ HAND-STITCHED TO ORDER</span><span>✦ CASH ON DELIVERY AVAILABLE</span><span>✦ DHAKA-WIDE DELIVERY</span><span>✦ CUSTOM COLOURS ON REQUEST</span>
+  </div>
+</div>
+
+<svg class="stitch-divider" viewBox="0 0 1200 26" preserveAspectRatio="none">
+  <path d="M0 13 Q30 2, 60 13 T 120 13 T 180 13 T 240 13 T 300 13 T 360 13 T 420 13 T 480 13 T 540 13 T 600 13 T 660 13 T 720 13 T 780 13 T 840 13 T 900 13 T 960 13 T 1020 13 T 1080 13 T 1140 13 T 1200 13"/>
+  <circle cx="60" cy="13" r="3"/><circle cx="180" cy="13" r="3"/><circle cx="300" cy="13" r="3"/><circle cx="420" cy="13" r="3"/><circle cx="540" cy="13" r="3"/><circle cx="660" cy="13" r="3"/><circle cx="780" cy="13" r="3"/><circle cx="900" cy="13" r="3"/><circle cx="1020" cy="13" r="3"/><circle cx="1140" cy="13" r="3"/>
+</svg>
+
+<!-- ===================== COLLECTIONS ===================== -->
+<section class="py-16 md:py-20 px-5 md:px-10">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal mb-10 text-center">
+      <p class="font-mono text-xs uppercase tracking-[0.25em] text-[var(--marigold-deep)] mb-3">Five Little Categories</p>
+      <h2 class="font-display text-4xl md:text-6xl font-bold">Wander the Shelves</h2>
+    </div>
+    <!--
+      COLLECTION TILES — one per category, purely a visual shortcut into
+      the shop below. If you remove a category further down (see the
+      CATEGORIES config in the script), remove its matching tile here too.
+    -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-5 reveal" id="collection-grid"></div>
+  </div>
+</section>
+
+<!-- ===================== CATALOG ===================== -->
+<section id="catalog" class="py-16 md:py-20 px-5 md:px-10">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b-2 border-[var(--ink)] pb-4 reveal">
+      <div>
+        <p class="font-mono text-xs uppercase tracking-[0.25em] text-[var(--marigold-deep)] mb-2">The Shop</p>
+        <h2 class="font-display text-4xl md:text-6xl font-bold">Everything Handmade</h2>
+      </div>
+      <span class="font-mono text-sm mt-3 md:mt-0">Cash on Delivery, Dhaka-wide</span>
+    </div>
+
+    <div class="flex gap-3 mb-10 overflow-x-auto pb-2 reveal" id="filter-row"></div>
+
+    <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 reveal"></div>
+  </div>
+</section>
+
+<svg class="stitch-divider" viewBox="0 0 1200 26" preserveAspectRatio="none">
+  <path d="M0 13 Q30 24, 60 13 T 120 13 T 180 13 T 240 13 T 300 13 T 360 13 T 420 13 T 480 13 T 540 13 T 600 13 T 660 13 T 720 13 T 780 13 T 840 13 T 900 13 T 960 13 T 1020 13 T 1080 13 T 1140 13 T 1200 13"/>
+  <circle cx="60" cy="13" r="3"/><circle cx="180" cy="13" r="3"/><circle cx="300" cy="13" r="3"/><circle cx="420" cy="13" r="3"/><circle cx="540" cy="13" r="3"/><circle cx="660" cy="13" r="3"/><circle cx="780" cy="13" r="3"/><circle cx="900" cy="13" r="3"/><circle cx="1020" cy="13" r="3"/><circle cx="1140" cy="13" r="3"/>
+</svg>
+
+<!-- ===================== CUSTOM REQUEST ===================== -->
+<section id="custom" class="py-20 md:py-24 px-5 md:px-10 bg-[var(--paper-deep)]/50">
+  <div class="max-w-3xl mx-auto text-center reveal">
+    <p class="font-mono text-xs uppercase tracking-[0.25em] text-[var(--marigold-deep)] mb-3">Not on the shelf yet?</p>
+    <h2 class="font-display text-4xl md:text-6xl font-bold mb-5">Dream Up Something Odd</h2>
+    <p class="max-w-xl mx-auto opacity-80 text-base md:text-lg mb-8">Want a specific character, colourway, or size — or a creature that doesn't exist anywhere but your head? Send a quick message with what you're picturing and we'll tell you if we can hook it into being.</p>
+    <button onclick="requestCustom()" class="btn btn-teal text-base px-8 py-4">Send a Custom Request →</button>
+  </div>
+</section>
+
+<!-- ===================== HOW TO ORDER (real sequence) ===================== -->
+<section class="py-20 md:py-24 px-5 md:px-10">
+  <div class="max-w-6xl mx-auto">
+    <div class="reveal mb-12 text-center">
+      <p class="font-mono text-xs uppercase tracking-[0.25em] text-[var(--marigold-deep)] mb-3">Four Steps</p>
+      <h2 class="font-display text-4xl md:text-6xl font-bold">How Ordering Works</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-5 reveal">
+      <div class="step-card">
+        <p class="step-num mb-2">01</p>
+        <h3 class="font-display text-lg font-bold mb-1">Browse & pick</h3>
+        <p class="text-sm opacity-75">Add ready-made pieces to your basket, or send a custom request.</p>
+      </div>
+      <div class="step-card">
+        <p class="step-num mb-2">02</p>
+        <h3 class="font-display text-lg font-bold mb-1">Send it on WhatsApp</h3>
+        <p class="text-sm opacity-75">Checkout opens WhatsApp with your order and delivery details filled in.</p>
+      </div>
+      <div class="step-card">
+        <p class="step-num mb-2">03</p>
+        <h3 class="font-display text-lg font-bold mb-1">We confirm</h3>
+        <p class="text-sm opacity-75">We reply with final price, timeline, and confirm Cash on Delivery.</p>
+      </div>
+      <div class="step-card">
+        <p class="step-num mb-2">04</p>
+        <h3 class="font-display text-lg font-bold mb-1">Delivered & paid</h3>
+        <p class="text-sm opacity-75">Your piece arrives — pay the courier in cash on arrival.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer id="footer" class="bg-[var(--ink)] text-[var(--paper)] py-16 md:py-20 px-5 md:px-10 relative overflow-hidden">
+  <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+    <h2 class="font-display text-3xl md:text-5xl font-bold mb-4">Got a question first?</h2>
+    <p class="opacity-70 mb-8">Message us on WhatsApp any time — we're usually quick to reply.</p>
+    <a id="footer-whatsapp" href="#" target="_blank" class="btn btn-primary text-base px-8 py-4">Chat on WhatsApp →</a>
+
+    <div class="mt-16 grid grid-cols-2 md:grid-cols-3 gap-8 text-sm text-left border-t border-[var(--paper)]/20 pt-10">
+      <div>
+        <h4 class="font-mono text-xs uppercase tracking-[0.15em] mb-3 opacity-60">Studio</h4>
+        <p class="opacity-80">Dhaka, Bangladesh</p>
+        <p class="opacity-80">Made to order</p>
+      </div>
+      <div>
+        <h4 class="font-mono text-xs uppercase tracking-[0.15em] mb-3 opacity-60">Delivery</h4>
+        <p class="opacity-80">Dhaka-wide, Cash on Delivery</p>
+        <p class="opacity-80">Outside Dhaka: ask on WhatsApp</p>
+      </div>
+      <div>
+        <h4 class="font-mono text-xs uppercase tracking-[0.15em] mb-3 opacity-60">Socials</h4>
+        <p class="opacity-80"><a href="#" class="hover:underline">Instagram</a></p>
+        <p class="opacity-80"><a href="#" class="hover:underline">Facebook</a></p>
+      </div>
+    </div>
+  </div>
+  <div class="absolute -bottom-8 -right-4 text-[16vw] font-display font-bold opacity-[0.06] select-none pointer-events-none">SHINGHORIN</div>
+</footer>
+
+<!-- ===================== PRODUCT MODAL ===================== -->
+<div id="product-modal" class="modal-overlay">
+  <div class="modal-box w-11/12 max-w-lg max-h-[92vh] overflow-y-auto p-5 md:p-7">
+    <div class="flex justify-between items-start mb-4 border-b border-[var(--line)] pb-3">
+      <div>
+        <h3 class="font-display text-2xl font-bold leading-tight" id="modal-title">Item name</h3>
+        <p class="font-mono text-sm mt-1" id="modal-price-display">৳ 0</p>
+      </div>
+      <button onclick="closeProductModal()" class="text-2xl leading-none hover:text-[var(--plum)]">&times;</button>
+    </div>
+
+    <div class="relative w-full aspect-square mb-5 border-2 border-[var(--ink)] rounded-2xl overflow-hidden bg-white">
+      <img id="modal-carousel-img" src="" class="w-full h-full object-cover" alt="Product image">
+      <button id="carousel-prev" onclick="prevImage(event)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-[var(--paper)] border-2 border-[var(--ink)] w-9 h-9 rounded-full hover:bg-[var(--plum)] hover:text-[var(--paper)] transition-colors">‹</button>
+      <button id="carousel-next" onclick="nextImage(event)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-[var(--paper)] border-2 border-[var(--ink)] w-9 h-9 rounded-full hover:bg-[var(--plum)] hover:text-[var(--paper)] transition-colors">›</button>
+      <div id="carousel-dots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5"></div>
+    </div>
+
+    <p class="text-sm opacity-80 leading-relaxed mb-5" id="modal-desc"></p>
+
+    <div id="modal-size-wrap" class="mb-5 hidden">
+      <p class="font-mono text-xs uppercase tracking-[0.12em] mb-2 opacity-70">Choose size</p>
+      <div id="modal-size-options" class="flex gap-2 flex-wrap"></div>
+    </div>
+
+    <div class="flex items-center justify-between mb-6">
+      <span class="font-mono text-xs uppercase tracking-[0.12em] opacity-70">Quantity</span>
+      <div class="qty-stepper">
+        <button class="qty-btn" onclick="changeModalQty(-1)">−</button>
+        <span class="font-display font-bold text-lg w-6 text-center" id="modal-qty">1</span>
+        <button class="qty-btn" onclick="changeModalQty(1)">+</button>
+      </div>
+    </div>
+
+    <p class="text-[0.7rem] opacity-50 mb-5">Want a different colour or size? <a href="#custom" onclick="closeProductModal()" class="underline hover:text-[var(--plum)]">Send a custom request →</a></p>
+
+    <div class="flex gap-3">
+      <button onclick="closeProductModal()" class="flex-1 btn-outline btn justify-center">Cancel</button>
+      <button onclick="addToCartFromModal()" class="flex-1 btn-primary btn justify-center">Add to Basket</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CART DRAWER ===================== -->
+<div id="cart-drawer" class="cart-drawer">
+  <div class="p-5 border-b-2 border-[var(--ink)] flex justify-between items-center">
+    <h2 class="font-display text-2xl font-bold">Your Basket</h2>
+    <button onclick="toggleCart()" class="text-2xl leading-none hover:text-[var(--plum)]">&times;</button>
+  </div>
+  <div id="cart-items" class="cart-items">
+    <p class="text-center mt-10 opacity-50 font-mono text-sm">Your basket is empty.</p>
+  </div>
+  <div class="p-5 border-t-2 border-[var(--ink)]">
+    <div class="flex justify-between text-lg font-bold mb-1 border-b border-[var(--line)] pb-2 font-mono"><span>SUBTOTAL</span><span id="cart-total">৳ 0</span></div>
+    <p id="cart-note" class="text-[0.68rem] opacity-60 mb-3 hidden">+ custom item(s) — final price confirmed via WhatsApp</p>
+    <form onsubmit="checkoutWhatsApp(event)">
+      <input id="checkout-name" type="text" class="field" placeholder="Full name" required>
+      <input id="checkout-phone" type="tel" class="field" placeholder="Phone number" required>
+      <textarea id="checkout-address" class="field h-16 resize-none" placeholder="Delivery address" required></textarea>
+      <input id="checkout-date" type="date" class="field">
+      <button type="submit" class="btn btn-primary w-full justify-center text-base py-4">Order via WhatsApp (COD) →</button>
+    </form>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast"><p id="toast-msg">Added to basket</p></div>
+
+<script>
+/* ============================================================
+   CONFIG — edit these to make the site yours
+   ============================================================ */
+const CONFIG = {
+  shopName: "Shinghorin",
+  currency: "৳",
+  whatsappNumber: "8801848335770", // your number, country code first, no + or spaces or leading 0
+  // Paste your Google Apps Script Web App URL here once you set it up.
+  // Leave it as "" for now — the site works fine without it, orders
+  // just won't be logged to a Sheet until you add this.
+  sheetWebhookUrl: ""
+};
+
+/* ============================================================
+   CATEGORIES — one block per folder on disk.
+   TO REMOVE A CATEGORY: delete its folder, then delete (or comment
+   out) its whole block below, AND delete its products further down
+   in PRODUCTS. If you skip the second step the products will just
+   silently show placeholder photos instead of real ones — not
+   broken, just not what you want.
+   TO ADD A CATEGORY: make a new folder next to index.html, add a
+   block here with a new unique "key" and a "folder" matching the
+   folder name, then add products for it in PRODUCTS below.
+   ============================================================ */
+const CATEGORIES = [
+  { key:"bagcharms",  label:"Bag Charms",         folder:"bag-charms", chip:"var(--teal)" },
+  { key:"flowers",    label:"Flowers",            folder:"flowers",    chip:"var(--marigold)" },
+  { key:"keychains",  label:"Crochet Keychains",  folder:"keychains",  chip:"var(--marigold)" },
+  { key:"plushies",   label:"Plushies",           folder:"plushies",   chip:"var(--plum)" },
+  { key:"caricature", label:"Caricature Drawings", folder:"caricature", chip:"var(--teal)" },
+  { key:"portraits",  label:"Realistic Portraits", folder:"portraits",  chip:"var(--marigold)" }
+];
+
+/* ============================================================
+   PRODUCTS — this is your entire catalog.
+   Each product's "images" list is just filenames that must exist
+   inside that category's folder (named 1.jpg, 2.jpg, 3.jpg ...).
+   Don't have the photo yet? Leave the filename in the list anyway —
+   a "photo coming soon" placeholder shows automatically until the
+   real file exists, so you can write up products before you've
+   photographed them.
+
+   Most products just need a flat "price". If an item comes in a
+   few sizes at different prices (like the drawing categories),
+   use "variants" instead of "price" — a list of {label, price}
+   pairs. The product page will show a size picker automatically.
+   A product should have EITHER "price" OR "variants", not both.
+
+   TO ADD A PRODUCT: copy one block below, change the id to a number
+   nobody else is using, and edit the fields.
+   TO REMOVE A PRODUCT: delete its block.
+   ============================================================ */
+const PRODUCTS = [
+  // --- Plushies (Pikachu shown first, as requested) ---
+  { id:1, category:"plushies", name:"Pikachu Plushie", bn:"পিকাচু", badge:"BESTSELLER",
+    description:"A round, cheerful little Pikachu, stitched stitch by stitch until it looked ready to spark.",
+    images:["9.jpg","10.jpg","11.jpg","12.jpg"], price:1800 },
+  { id:2, category:"plushies", name:"Messi Plushie", bn:"মেসি", badge:"",
+    description:"A cuddly tribute to the GOAT — soft, huggable, and just as beloved on the shelf as on the pitch.",
+    images:["6.jpg","7.jpg","8.jpg"], price:1200 },
+  { id:3, category:"plushies", name:"Ronaldo CR7 Plushie", bn:"রোনালদো", badge:"",
+    description:"A crocheted CR7, made for fans who want their hero in soft, huggable form.",
+    images:["4.jpg","5.jpg"], price:2000 },
+  { id:4, category:"plushies", name:"Pink Monkey Plushie", bn:"বানর", badge:"",
+    description:"A goofy little pink monkey with a big grin — sweet, silly, and endlessly squeezable.",
+    images:["2.jpg"], price:800 },
+  { id:5, category:"plushies", name:"Cute Bunny Plushie", bn:"খরগোশ", badge:"NEW",
+    description:"A soft floppy-eared bunny with a shy little face — the kind you can't put back down.",
+    images:["1.jpg"], price:2000 },
+  { id:6, category:"plushies", name:"Frog Plushie", bn:"ব্যাঙ", badge:"",
+    description:"A small, round, perpetually pleased-looking frog — froggy little legs and all.",
+    images:["3.jpg"], price:350 },
+
+  // --- Crochet Keychains ---
+  { id:7, category:"keychains", name:"Fish Keychain", bn:"মাছ", badge:"",
+    description:"A tiny crocheted fish on a clip, gently swimming its way onto your keys or bag.",
+    images:["3.jpg"], price:220 },
+  { id:8, category:"keychains", name:"Spider Gwen Keychain", bn:"", badge:"",
+    description:"A pint-sized Spider-Gwen keychain, stitched sharp and small enough to swing anywhere.",
+    images:["1.jpg"], price:120 },
+  { id:9, category:"keychains", name:"Moomin Keychain", bn:"", badge:"NEW",
+    description:"A soft, round little Moomin, made keyring-sized for daily company.",
+    images:["2.jpg"], price:500 },
+
+  // --- Flowers ---
+  { id:10, category:"flowers", name:"Rose and Tulip Bouquet", bn:"তোড়া", badge:"",
+    description:"A mixed bouquet of crocheted roses and tulips, gathered together and never wilting.",
+    images:["2.jpg"], price:450 },
+  { id:11, category:"flowers", name:"Single Sunflower", bn:"সূর্যমুখী", badge:"",
+    description:"One cheerful crocheted sunflower on a stem — small, bright, and forever in bloom.",
+    images:["3.jpg"], price:150 },
+  { id:12, category:"flowers", name:"Sunflower Plant", bn:"সূর্যমুখী গাছ", badge:"",
+    description:"A little potted sunflower plant, crocheted leaves and all, that never needs watering.",
+    images:["4.jpg"], price:300 },
+  { id:13, category:"flowers", name:"Rose Bouquet Table-Mat", bn:"গোলাপ", badge:"BESTSELLER",
+    description:"A crocheted rose bouquet arranged flat as a table mat — equal parts décor and centerpiece.",
+    images:["1.jpg"], price:2500 },
+
+  // --- Bag Charms ---
+  { id:14, category:"bagcharms", name:"Spiderman Bag Charm Pair", bn:"", badge:"",
+    description:"A matching pair of tiny crocheted Spider-Man charms, ready to swing off any bag.",
+    images:["11.jpg","12.jpg","10.jpg"], price:1000 },
+  { id:15, category:"bagcharms", name:"Kuromi Bag Charm (Black)", bn:"", badge:"",
+    description:"A moody little Kuromi charm in classic black, clipped and ready to dangle.",
+    images:["8.jpg","9.jpg"], price:350 },
+  { id:16, category:"bagcharms", name:"Kuromi Bag Charm (Purple)", bn:"", badge:"",
+    description:"The same mischievous Kuromi charm, in a softer purple colourway.",
+    images:["5.jpg","7.jpg"], price:350 },
+  { id:17, category:"bagcharms", name:"Frog Bag Charm", bn:"ব্যাঙ", badge:"",
+    description:"A tiny crocheted frog charm with a permanently pleased little face.",
+    images:["3.jpg","1.jpg"], price:300 },
+  { id:18, category:"bagcharms", name:"Turtle Bag Charm", bn:"কচ্ছপ", badge:"",
+    description:"A small, slow, extremely charming crocheted turtle on a clip.",
+    images:["2.jpg"], price:300 }
+
+  // --- Caricature Drawings & Realistic Portraits ---
+  // Intentionally left empty for now — see the "Coming soon" note in
+  // renderCatalog() below. Add products here the same way as above
+  // once you're ready to launch these two categories, using the
+  // "variants" field for A4/A3 pricing (see the comment block above).
+];
+
+/* ============================================================
+   CATEGORY TILES + FILTER PILLS (built from CATEGORIES above)
+   ============================================================ */
+function renderCollectionGrid(){
+  const grid = document.getElementById("collection-grid");
+  grid.innerHTML = CATEGORIES.map(cat=>{
+    const cover = PRODUCTS.find(p=>p.category===cat.key);
+    const img = cover ? imgPath(cat.folder, cover.images[0]) : "placeholder-product.svg";
+    return `
+      <div class="collection-card group" onclick="goToCollection('${cat.key}')">
+        <img src="${img}" alt="${cat.label}" onerror="this.onerror=null;this.src='placeholder-product.svg';">
+        <div class="collection-overlay">
+          <span class="tag-chip mb-2 w-fit" style="background:${cat.chip}; color:var(--paper);">${cat.label}</span>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function renderFilterRow(){
+  const row = document.getElementById("filter-row");
+  row.innerHTML = `<button class="filter-pill active" onclick="filterCatalog('all', this)">ALL</button>` +
+    CATEGORIES.map(cat=>`<button class="filter-pill" data-key="${cat.key}" onclick="filterCatalog('${cat.key}', this)">${cat.label.toUpperCase()}</button>`).join("");
+}
+
+/* ============================================================
+   CATALOG RENDERING
+   ============================================================ */
+function imgPath(folder, filename){ return `${folder}/${filename}`; }
+
+function priceRangeLabel(p){
+  if(p.variants){
+    const min = Math.min(...p.variants.map(v=>v.price));
+    return `FROM ${CONFIG.currency}${min.toLocaleString()}`;
+  }
+  return `${CONFIG.currency}${p.price.toLocaleString()}`;
+}
+
+function renderSpecimenCard(p){
+  const cat = CATEGORIES.find(c=>c.key===p.category);
+  const badgeHTML = p.badge ? `<span class="badge-tag">${p.badge}</span>` : "";
+  return `
+  <div class="specimen-card group cursor-pointer" onclick="openProductModal(${p.id})">
+    <div class="specimen-img-wrap">
+      <img src="${imgPath(cat.folder, p.images[0])}" alt="${p.name}" onerror="this.onerror=null;this.src='placeholder-product.svg';">
+      ${badgeHTML}
+    </div>
+    <div class="p-3 md:p-4">
+      <h3 class="font-display text-base md:text-xl font-bold leading-tight">${p.name}</h3>
+      <p class="font-bn text-xs md:text-sm opacity-60 mb-2">${p.bn}</p>
+      <div class="flex justify-between items-center font-mono">
+        <span class="text-xs md:text-sm font-bold">${priceRangeLabel(p)}</span>
+        <span class="text-[10px] md:text-xs underline">VIEW +</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderCatalog(filter="all"){
+  const grid = document.getElementById("product-grid");
+  const filtered = filter === "all" ? PRODUCTS : PRODUCTS.filter(p=>p.category===filter);
+  grid.innerHTML = filtered.length ? filtered.map(p=>renderSpecimenCard(p)).join("") : `<div class="col-span-full text-center py-16 opacity-60 font-hand text-2xl">✦ Coming soon — this little corner of the shop is still being stitched together! ✦</div>`;
+}
+
+function filterCatalog(key, btn){
+  document.querySelectorAll("#filter-row .filter-pill").forEach(b=>b.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  renderCatalog(key);
+}
+
+function goToCollection(key){
+  const btn = document.querySelector(`#filter-row .filter-pill[data-key="${key}"]`);
+  filterCatalog(key, btn);
+  document.getElementById("catalog").scrollIntoView({behavior:"smooth"});
+}
+
+renderCollectionGrid();
+renderFilterRow();
+renderCatalog();
+
+/* ============================================================
+   PRODUCT MODAL + CAROUSEL
+   ============================================================ */
+const prodModal = document.getElementById("product-modal");
+let activeProduct = null;
+let carouselImages = [];
+let carouselIndex = 0;
+let modalQty = 1;
+let activeVariant = null;
+
+function openProductModal(id){
+  activeProduct = PRODUCTS.find(p=>p.id===id);
+  if(!activeProduct) return;
+  const cat = CATEGORIES.find(c=>c.key===activeProduct.category);
+  document.getElementById("modal-title").innerText = activeProduct.name;
+  document.getElementById("modal-desc").innerText = activeProduct.description;
+  carouselImages = activeProduct.images.map(f=>imgPath(cat.folder, f));
+  carouselIndex = 0;
+  modalQty = 1;
+  document.getElementById("modal-qty").innerText = modalQty;
+  updateCarousel();
+
+  const sizeWrap = document.getElementById("modal-size-wrap");
+  if(activeProduct.variants){
+    sizeWrap.classList.remove("hidden");
+    renderSizeOptions();
+    selectVariant(0);
+  } else {
+    sizeWrap.classList.add("hidden");
+    activeVariant = null;
+    document.getElementById("modal-price-display").innerText = `${CONFIG.currency}${activeProduct.price.toLocaleString()}`;
+  }
+
+  prodModal.classList.add("open");
+}
+function closeProductModal(){ prodModal.classList.remove("open"); }
+
+function renderSizeOptions(){
+  const wrap = document.getElementById("modal-size-options");
+  wrap.innerHTML = activeProduct.variants.map((v,i)=>`
+    <button type="button" class="size-pill" data-index="${i}" onclick="selectVariant(${i})">${v.label} — ${CONFIG.currency}${v.price.toLocaleString()}</button>
+  `).join("");
+}
+function selectVariant(index){
+  activeVariant = activeProduct.variants[index];
+  document.querySelectorAll("#modal-size-options .size-pill").forEach((btn,i)=>{
+    btn.classList.toggle("selected", i===index);
+  });
+  document.getElementById("modal-price-display").innerText = `${CONFIG.currency}${activeVariant.price.toLocaleString()}`;
+}
+
+function updateCarousel(){
+  const img = document.getElementById("modal-carousel-img");
+  const prev = document.getElementById("carousel-prev");
+  const next = document.getElementById("carousel-next");
+  const dots = document.getElementById("carousel-dots");
+  img.onerror = function(){ this.onerror=null; this.src='placeholder-product.svg'; };
+  img.src = carouselImages[carouselIndex];
+  if(carouselImages.length>1){
+    prev.style.display="block"; next.style.display="block";
+    dots.innerHTML = carouselImages.map((_,i)=>`<div class="w-2 h-2 rounded-full border border-[var(--ink)] ${i===carouselIndex?'bg-[var(--plum)]':'bg-white'}"></div>`).join("");
+  } else { prev.style.display="none"; next.style.display="none"; dots.innerHTML=""; }
+}
+function prevImage(e){ e.preventDefault(); carouselIndex=(carouselIndex-1+carouselImages.length)%carouselImages.length; updateCarousel(); }
+function nextImage(e){ e.preventDefault(); carouselIndex=(carouselIndex+1)%carouselImages.length; updateCarousel(); }
+
+function changeModalQty(delta){
+  modalQty = Math.max(1, modalQty + delta);
+  document.getElementById("modal-qty").innerText = modalQty;
+}
+
+function addToCartFromModal(){
+  const price = activeVariant ? activeVariant.price : activeProduct.price;
+  const detail = activeVariant ? activeVariant.label : "";
+  const cartKey = activeVariant ? `${activeProduct.id}-${activeVariant.label}` : `${activeProduct.id}`;
+  const existing = cart.find(item=>item.type==="product" && item.cartKey===cartKey);
+  if(existing){ existing.qty += modalQty; }
+  else {
+    cart.push({ type:"product", id:activeProduct.id, cartKey, name:activeProduct.name, detail, price, qty:modalQty });
+  }
+  closeProductModal();
+  updateCartUI();
+  showToast("Added to basket");
+  toggleCart();
+}
+
+/* ============================================================
+   CUSTOM REQUEST
+   ============================================================ */
+function requestCustom(){
+  const message = `*${CONFIG.shopName} — CUSTOM REQUEST*%0AHi! I'd like to ask about a custom piece.%0A%0AWhat I have in mind:%0A(describe colour, size, character, etc.)`;
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const baseUrl = isMobile ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
+  window.open(`${baseUrl}?phone=${CONFIG.whatsappNumber}&text=${message}`, "_blank");
+}
+
+document.getElementById("footer-whatsapp").addEventListener("click", function(e){
+  e.preventDefault();
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const baseUrl = isMobile ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
+  window.open(`${baseUrl}?phone=${CONFIG.whatsappNumber}&text=${encodeURIComponent("Hi! I have a question about "+CONFIG.shopName+".")}`, "_blank");
+});
+
+/* ============================================================
+   CART
+   ============================================================ */
+let cart = [];
+const cartDrawer = document.getElementById("cart-drawer");
+
+function updateCartUI(){
+  document.getElementById("cart-btn-top").innerText = `BASKET (${cart.reduce((n,i)=>n+i.qty,0)})`;
+
+  const container = document.getElementById("cart-items");
+  const totalEl = document.getElementById("cart-total");
+  const noteEl = document.getElementById("cart-note");
+
+  if(!cart.length){
+    container.innerHTML = `<p class="text-center mt-10 opacity-50 font-mono text-sm">Your basket is empty.</p>`;
+    totalEl.innerText = `${CONFIG.currency}0`;
+    noteEl.classList.add("hidden");
+    return;
+  }
+
+  let total = 0;
+  let hasCustom = false;
+  container.innerHTML = cart.map((item,i)=>{
+    if(item.price === null){ hasCustom = true; }
+    else { total += item.price * item.qty; }
+    const priceLabel = item.price === null ? `<span class="text-[var(--marigold-deep)]">Quote Pending</span>` : `${CONFIG.currency}${(item.price*item.qty).toLocaleString()}`;
+    return `
+      <div class="flex justify-between items-start border-b border-[var(--line)] pb-3 mb-3">
+        <div class="pr-2">
+          <p class="font-semibold text-sm">${item.name}</p>
+          <p class="text-[0.7rem] opacity-60 font-mono mt-0.5">${item.detail ? item.detail + " · " : ""}Qty ${item.qty}</p>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <p class="font-mono text-sm font-bold">${priceLabel}</p>
+          <button onclick="removeFromCart(${i})" class="text-[0.65rem] text-[var(--plum)] font-bold hover:underline mt-1">REMOVE</button>
+        </div>
+      </div>`;
+  }).join("");
+
+  totalEl.innerText = `${CONFIG.currency}${total.toLocaleString()}`;
+  noteEl.classList.toggle("hidden", !hasCustom);
+}
+
+function removeFromCart(i){ cart.splice(i,1); updateCartUI(); }
+function toggleCart(){ cartDrawer.classList.toggle("open"); }
+
+/* ============================================================
+   CHECKOUT — opens WhatsApp with the order, and (if configured)
+   also logs the order to your Google Sheet in the background.
+   ============================================================ */
+function checkoutWhatsApp(e){
+  e.preventDefault();
+  if(!cart.length){ showToast("Your basket is empty", true); return; }
+  const name = document.getElementById("checkout-name").value;
+  const phone = document.getElementById("checkout-phone").value;
+  const address = document.getElementById("checkout-address").value;
+  const date = document.getElementById("checkout-date").value;
+
+  let itemLines = "";
+  let itemLinesPlain = "";
+  let total = 0;
+  cart.forEach(item=>{
+    const priceText = item.price===null ? "Quote pending" : `${CONFIG.currency}${item.price}`;
+    itemLines += `• ${item.name} x${item.qty} — ${priceText}%0A`;
+    itemLinesPlain += `${item.name} x${item.qty} (${priceText})\n`;
+    if(item.price!==null) total += item.price * item.qty;
+  });
+
+  const message = `*${CONFIG.shopName} ORDER REQUEST — COD*%0A---------------------------%0A*CUSTOMER*%0AName: ${name}%0APhone: ${phone}%0AAddress: ${address}%0A${date ? "Preferred date: "+date+"%0A" : ""}---------------------------%0A*ITEMS*%0A${itemLines}---------------------------%0A*Subtotal: ${CONFIG.currency}${total}*%0A_Cash on Delivery — please confirm availability and final total._`;
+
+  // Log to Google Sheet in the background, if a webhook URL has been set.
+  // This never blocks or delays the WhatsApp order — if it fails or isn't
+  // configured yet, the order still goes through via WhatsApp as normal.
+  if(CONFIG.sheetWebhookUrl){
+    fetch(CONFIG.sheetWebhookUrl, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify({
+        name, phone, address, date,
+        items: itemLinesPlain.trim(),
+        total,
+        hasCustom: cart.some(i=>i.price===null),
+        timestamp: new Date().toISOString()
+      })
+    }).catch(()=>{ /* silent — WhatsApp order still proceeds either way */ });
+  }
+
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const baseUrl = isMobile ? "https://api.whatsapp.com/send" : "https://web.whatsapp.com/send";
+  window.open(`${baseUrl}?phone=${CONFIG.whatsappNumber}&text=${message}`, "_blank");
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+const toastEl = document.getElementById("toast");
+const toastMsgEl = document.getElementById("toast-msg");
+function showToast(msg, isError=false){
+  toastMsgEl.innerText = msg;
+  toastEl.style.borderColor = isError ? "#8B3A62" : "#E8A33D";
+  toastEl.classList.add("show");
+  setTimeout(()=>toastEl.classList.remove("show"), 2400);
+}
+
+/* ============================================================
+   MISC — mobile menu, close modal on backdrop click, parallax, reveal
+   ============================================================ */
+function toggleMobileMenu(){ document.getElementById("mobile-menu").classList.toggle("open"); }
+
+document.querySelectorAll(".modal-overlay").forEach(overlay=>{
+  overlay.addEventListener("click", e=>{ if(e.target===overlay) overlay.classList.remove("open"); });
+});
+
+const parallaxEls = document.querySelectorAll(".parallax");
+let ticking = false;
+function updateParallax(){
+  const scrolled = window.scrollY;
+  parallaxEls.forEach(el=>{
+    const speed = parseFloat(el.getAttribute("data-speed"));
+    el.style.transform = `translate3d(0, ${scrolled*speed}px, 0)`;
+  });
+  ticking = false;
+}
+window.addEventListener("scroll", ()=>{ if(!ticking){ requestAnimationFrame(updateParallax); ticking = true; } });
+
+const revealEls = document.querySelectorAll(".reveal");
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add("in-view"); io.unobserve(entry.target); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el=>io.observe(el));
+
+/* ============================================================
+   Basic protection against casual image copying. This only
+   deters ordinary right-click / drag-and-drop saving — it can't
+   stop someone determined (nothing client-side can), but it
+   quietly raises the bar without interrupting anyone with a
+   popup or message.
+   ============================================================ */
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.addEventListener("dragstart", e => e.preventDefault());
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" fill="none">
+  <rect width="400" height="500" fill="#F0E2C4"/>
+  <!-- Subtle stitch background pattern -->
+  <circle cx="200" cy="200" r="100" stroke="#2B2118" stroke-width="2" stroke-dasharray="8 8" opacity="0.2"/>
+  <!-- Crochet yarn ball and crochet hook illustration -->
+  <g transform="translate(140, 150)">
+    <!-- Yarn ball -->
+    <circle cx="60" cy="60" r="50" fill="#E8A33D" stroke="#2B2118" stroke-width="3"/>
+    <path d="M25 45 C40 30, 80 30, 95 45 M20 65 C40 50, 80 50, 100 65 M30 85 C50 75, 75 75, 90 85" stroke="#2B2118" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5"/>
+    <path d="M45 20 C60 40, 60 80, 45 100 M65 20 C75 45, 75 75, 65 100" stroke="#8B3A62" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.6"/>
+    <!-- Yarn strand trailing -->
+    <path d="M95 85 Q130 110, 150 90 T180 130" stroke="#E8A33D" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <!-- Little crochet hook -->
+    <path d="M-10 110 L100 0 C105 -5, 115 -5, 110 5 C108 8, 100 12, 102 7" stroke="#2F7A6E" stroke-width="4" stroke-linecap="round" fill="none"/>
+  </g>
+  <!-- Text -->
+  <text x="200" y="340" text-anchor="middle" font-family="'Space Mono', monospace" font-size="14" font-weight="700" fill="#2B2118" letter-spacing="2">HANDMADE SPECIMEN</text>
+  <text x="200" y="370" text-anchor="middle" font-family="'Kalam', cursive" font-size="16" fill="#8B3A62">✦ photo coming soon ✦</text>
+</svg>
