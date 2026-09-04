@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Product, Category, Variant } from '@/lib/types';
 import { formatPrice, getProductImagePath } from '@/lib/utils';
+import PolaroidCardModal from '@/components/admin/PolaroidCardModal';
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -15,6 +16,15 @@ export default function AdminProductsPage() {
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+
+  // Polaroid Social Card Studio State
+  const [polaroidProduct, setPolaroidProduct] = useState<Product | null>(null);
+  const [isPolaroidOpen, setIsPolaroidOpen] = useState(false);
+
+  const openPolaroidStudio = (product: Product) => {
+    setPolaroidProduct(product);
+    setIsPolaroidOpen(true);
+  };
 
   // Form State
   const [formData, setFormData] = useState({
@@ -443,7 +453,15 @@ export default function AdminProductsPage() {
                           {p.isActive ? 'Active' : 'Hidden'}
                         </button>
                       </td>
-                      <td className="p-3 text-right space-x-2">
+                      <td className="p-3 text-right space-x-2 whitespace-nowrap">
+                        <button
+                          type="button"
+                          onClick={() => openPolaroidStudio(p)}
+                          className="px-2.5 py-1 rounded-lg border border-[var(--teal)] text-[var(--teal)] hover:bg-[var(--teal)] hover:text-white transition-colors text-[11px] font-bold"
+                          title="Generate instant Polaroid Social Media Card"
+                        >
+                          📸 Card
+                        </button>
                         <button
                           type="button"
                           onClick={() => openEditModal(p)}
@@ -801,6 +819,16 @@ export default function AdminProductsPage() {
                 >
                   Cancel
                 </button>
+                {editingProduct && (
+                  <button
+                    type="button"
+                    onClick={() => openPolaroidStudio(editingProduct)}
+                    className="btn border-2 border-[var(--teal)] text-[var(--teal)] hover:bg-[var(--teal)] hover:text-white flex-initial px-4 justify-center"
+                    title="Generate Polaroid Social Media Card for this product"
+                  >
+                    📸 Social Card
+                  </button>
+                )}
                 <button
                   type="submit"
                   disabled={saving}
@@ -813,6 +841,14 @@ export default function AdminProductsPage() {
           </div>
         </div>
       )}
+
+      {/* Polaroid Social Card Studio Modal */}
+      <PolaroidCardModal
+        product={polaroidProduct}
+        categories={categories}
+        isOpen={isPolaroidOpen}
+        onClose={() => setIsPolaroidOpen(false)}
+      />
     </div>
   );
 }

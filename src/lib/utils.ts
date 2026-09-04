@@ -16,8 +16,8 @@ export function getProductImagePath(folder?: string, filename?: string): string 
   if (filename.startsWith('http://') || filename.startsWith('https://') || filename.startsWith('/')) {
     return filename;
   }
-  if (folder) {
-    return `/${folder}/${filename}`;
+  if (filename.startsWith('product-') || !folder) {
+    return `/uploads/${filename}`;
   }
-  return `/uploads/${filename}`;
+  return `/${folder}/${filename}`;
 }

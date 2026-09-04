@@ -121,6 +121,7 @@ The administration area is intentionally unlinked on the storefront to keep it c
      - Add badges like `BESTSELLER` or `NEW`.
      - Click **Edit** to adjust pricing or descriptions anytime.
      - Click **Delete** to remove a product.
+     - Click **"📸 Card"** to launch the **Polaroid Social Card Studio**: Generate instant, beautiful social media cards styled like authentic Polaroid film with your product photo, name, Bengali text, price, and custom captions. Free instant high-res PNG download ready for Instagram, Facebook, and WhatsApp (completely private to admin; nothing stored on the server).
    - **Categories (`/admin/categories`)**: Create new collections (e.g., Clay Figurines, Bookmarks) and customize their tag chip accent colors.
    - **Orders (`/admin/orders`)**: View orders placed via WhatsApp COD, update their status, and click **"💬 WhatsApp Customer"** to message the buyer directly.
 
@@ -236,8 +237,10 @@ If you prefer not to manage Linux servers via SSH:
 2. Go to [railway.app](https://railway.app) and sign in with GitHub.
 3. Click **"New Project"** -> **"Deploy from GitHub repo"** -> select `Shinghorin`.
 4. In the Railway dashboard:
-   - Go to **Variables** and add your environment variables (`ADMIN_USERNAME`, `ADMIN_PASSWORD`, `DATABASE_URL="file:/data/shinghorin.db"`).
-   - Go to **Settings** -> **Volumes** -> Click **"Add Volume"** and set the mount path to `/data`. This ensures your SQLite database and product uploads never get deleted when you redeploy.
+   - Go to **Variables** and add your environment variables (`ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_JWT_SECRET`, `DATABASE_URL="file:/data/shinghorin.db"`).
+   - Go to **Settings** -> **Volumes** -> Click **"Add Volume"** and set the mount path to `/data`.
+     - *Why this is important*: This ensures both your SQLite database (`/data/shinghorin.db`) AND all uploaded product photos (`/data/uploads`) remain permanently preserved across git pushes, container restarts, and redeployments!
+     - *Automatic Photo Serving*: The website automatically detects the `/data` volume, saves uploaded product photos to `/data/uploads`, and streams them through the built-in `/uploads` route handler so your photos display immediately with zero broken images or "coming soon" placeholders.
 5. In **Settings** -> **Networking**, click **"Generate Domain"** or add your custom domain.
 6. Done!
 
